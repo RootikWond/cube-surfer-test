@@ -1,0 +1,185 @@
+{
+    "m_SelectedDeviceId": "9AXAX0M6Z7",
+    "m_SelectedPackage": {
+        "deviceId": "9AXAX0M6Z7",
+        "name": "com.DefaultCompany.TestCubeSurfer",
+        "processId": 9714,
+        "exited": true
+    },
+    "m_SelectedPriority": 0,
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 19402,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 28781,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 29752,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 30735,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 870,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 3329,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 4231,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 7580,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 26248,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 25405,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 26899,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 27755,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 28295,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 30466,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 7991,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 8733,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 6186,
+            "exited": true
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 7320,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 7770,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 9714,
+            "exited": true
+        }
+    ],
+    "m_Tags": {
+        "m_Entries": [
+            {
+                "m_Name": "Filter by all listed tags",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "No Filter",
+                "m_Selected": true
+            },
+            {
+                "m_Name": "",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "Tag Control...",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "Unity",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "CRASH",
+                "m_Selected": false
+            }
+        ]
+    },
+    "m_MemoryViewerState": {
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
+        "MemoryGroup": 1,
+        "Behavior": 1
+    },
+    "m_Filter": "",
+    "m_FilterIsRegularExpression": false,
+    "m_SymbolPaths": []
+}
