@@ -22,6 +22,10 @@ public class BoxStackSO : ScriptableObject
     {
         Items.Clear();
     }
+    private void OnDisable()
+    {
+        Items.Clear();
+    }
     private void RaiseEvent()
     {
         if (OnEventRaised != null)
@@ -30,8 +34,15 @@ public class BoxStackSO : ScriptableObject
 
     public void Add(StackBox thing)
     {
+        if (thing == null)
+        {
+            return;
+        }
         if (!Items.Contains(thing))
+        {
             Items.Add(thing);
+        }
+            
         RaiseEvent();
     }
 

@@ -13,7 +13,9 @@ public class PlayerController : MonoBehaviour
     private Camera _mainCamera;
 
     [SerializeField] private PlayerBody playerBody;
+    [SerializeField] private StackBox stackBox;
     [SerializeField] private CinemachineDollyCart playerCart;
+    
 
     private bool inputsEnabled;
 
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _mainCamera = Camera.main;
+        
     }
     private void OnEnable()
     {
@@ -57,6 +60,11 @@ public class PlayerController : MonoBehaviour
         LevelFinish.OnEventRaised -= OnPlayerWin;
 
     }
+    private void Start()
+    {
+        Stack.Add(stackBox);
+    }
+
 
     //Test to add remove boxes into stack
     private void UpdateBoxStack(bool value)
@@ -65,16 +73,17 @@ public class PlayerController : MonoBehaviour
         {
             var box = StackBoxPool.Instance.SpawnBox(playerBody.transform.localPosition, transform);
             Stack.Add(box);
-            speed += 1;
+            
 
         }
         else
         {
             if (Stack.Items.Count > 0)
             {
-                Stack.RemoveLast();
+                var box = Stack.LastBox();
+                box.Remove();
+               
             }
-            speed -= 1;
         }
     }
 
@@ -194,6 +203,7 @@ public class PlayerController : MonoBehaviour
             inputsEnabled = true;
             playerCart.m_Speed = 10;
             StartLevel.RaiseEvent();
+            
         }
 
     }
@@ -216,9 +226,13 @@ public class PlayerController : MonoBehaviour
 
     private void AddBox(Item item)
     {
-      
-        var lastBoxPosition = Stack.LastBox().transform.localPosition;
-
+        var lastBox = Stack.LastBox();
+        Vector3 lastBoxPosition = Vector3.zero;
+        if (lastBox != null)
+        {
+            lastBoxPosition = Stack.LastBox().transform.localPosition;
+        }
+     
         playerBody.rigidbody.isKinematic = true;
 
         for (int i = 0; i < item.amount; i++)

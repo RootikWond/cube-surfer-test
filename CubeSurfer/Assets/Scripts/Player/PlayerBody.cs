@@ -44,13 +44,6 @@ public class PlayerBody : MonoBehaviour
 
     private void FixedUpdate()
     {
-        /*
-        if (rigidbody.velocity.y > 0)
-        {
-            rigidbody.velocity = new Vector3(0, Mathf.Clamp(rigidbody.velocity.y, 0, 1), 0);
-        }
-        */
-
         if (rigidbody.velocity.y < -5)
         {
             SetGroundedState(false);

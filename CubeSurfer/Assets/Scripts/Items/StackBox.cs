@@ -14,17 +14,9 @@ public class StackBox : MonoBehaviour
     }
     private void OnEnable()
     {
-
-
         rigidbody.constraints = rigidbodyConstrains;
-        //StartBox
-        if (transform.parent !=null && transform.parent.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
-        {
-            var player = transform.parent.GetComponent<PlayerController>();
-            player.Stack.Add(this);
 
-        }
-    }
+     }
  
     public void Emergence()
     {
