@@ -5,6 +5,7 @@ using UnityEngine;
 //Particles effect played on activation and auto disabled through particle system
 public class VFXPool : MonoBehaviour
 {
+    [SerializeField] private VoidEventSO OnSceneReady = default;
     [System.Serializable]
     public class VFX
     {
@@ -36,8 +37,17 @@ public class VFXPool : MonoBehaviour
             Instance = this;
         }
     }
+    private void OnEnable()
+    {
+        OnSceneReady.OnEventRaised += SetupPool;
+    }
+    private void OnDisable()
+    {
+        OnSceneReady.OnEventRaised -= SetupPool;
+    }
 
-    private void Start()
+
+    private void SetupPool()
     {
         m_Pool = new Queue<VFX>[List.Length];
 

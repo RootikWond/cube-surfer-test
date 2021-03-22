@@ -23,15 +23,17 @@ public class UISystemManager : MonoBehaviour
 
     
     [Header("Events")]
+    public VoidEventSO LevelStart = default;
     public BoolEventSO OnBoxChange = default;
     public VoidEventSO LevelRestart = default;
+    
 
     [Header("Listeners")]
     public VoidEventSO OnSceneReady = default;
     public ItemEventSO CoinCollect = default;
     public IntEventSO LevelFinish = default;
     public VoidEventSO LevelFailed = default;
-    public VoidEventSO LevelStarted = default;
+    
     
 
     private int collected = 0;
@@ -47,7 +49,7 @@ public class UISystemManager : MonoBehaviour
         CoinCollect.OnEventRaised += UpdateCoinsCounter;
         LevelFinish.OnEventRaised += MultiplyCoins;
         LevelFailed.OnEventRaised += ShowDefeatScreen;
-        LevelStarted.OnEventRaised += OnLevelStarted;
+        LevelStart.OnEventRaised += OnLevelStarted;
     }
     private void OnDisable()
     {
@@ -55,7 +57,7 @@ public class UISystemManager : MonoBehaviour
         CoinCollect.OnEventRaised -= UpdateCoinsCounter;
         LevelFinish.OnEventRaised -= MultiplyCoins;
         LevelFailed.OnEventRaised -= ShowDefeatScreen;
-        LevelStarted.OnEventRaised -= OnLevelStarted;
+        LevelStart.OnEventRaised -= OnLevelStarted;
        
     }
 
@@ -150,7 +152,7 @@ public class UISystemManager : MonoBehaviour
         winScreen.gameObject.SetActive(false);
         LevelRestart.OnEventRaised();
     }
-    
+
     public void OnAddBox()
     {
         OnBoxChange?.OnEventRaised(true);

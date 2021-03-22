@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "9AXAX0M6Z7",
         "name": "com.DefaultCompany.TestCubeSurfer",
-        "processId": 9714,
+        "processId": 29308,
         "exited": true
     },
     "m_SelectedPriority": 0,
@@ -126,6 +126,30 @@
             "deviceId": "9AXAX0M6Z7",
             "name": "com.DefaultCompany.TestCubeSurfer",
             "processId": 9714,
+            "exited": true
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 24085,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 7136,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 28320,
+            "exited": false
+        },
+        {
+            "deviceId": "9AXAX0M6Z7",
+            "name": "com.DefaultCompany.TestCubeSurfer",
+            "processId": 29308,
             "exited": true
         }
     ],

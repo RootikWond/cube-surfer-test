@@ -6,6 +6,10 @@ public class StackBoxPool : MonoBehaviour
     public static StackBoxPool Instance { get; private set; }
     public StackBox prefab;
     public Queue<StackBox> m_Pool = new Queue<StackBox>();
+
+    [SerializeField] private VoidEventSO OnSceneReady = default;
+    
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -18,7 +22,17 @@ public class StackBoxPool : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
+    {
+        OnSceneReady.OnEventRaised += SetupPool;
+    }
+    private void OnDisable()
+    {
+        OnSceneReady.OnEventRaised -= SetupPool;
+    }
+
+
+    private void SetupPool()
     {
         if (prefab != null)
         {
@@ -27,12 +41,12 @@ public class StackBoxPool : MonoBehaviour
             for (int i = 0; i < size; ++i)
             {
                 StackBox box = Instantiate(prefab);
-                box.transform.localScale = Vector3.zero;
                 box.gameObject.SetActive(false);
                 m_Pool.Enqueue(box);
             }
         }
     }
+    
     private StackBox GetBox()
     {
         if (Instance.m_Pool.Count == 0)

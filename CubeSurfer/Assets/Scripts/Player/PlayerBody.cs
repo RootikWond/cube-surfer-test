@@ -44,6 +44,13 @@ public class PlayerBody : MonoBehaviour
 
     private void FixedUpdate()
     {
+        /*
+        if (rigidbody.velocity.y > 0)
+        {
+            rigidbody.velocity = new Vector3(0, Mathf.Clamp(rigidbody.velocity.y, 0, 1), 0);
+        }
+        */
+
         if (rigidbody.velocity.y < -5)
         {
             SetGroundedState(false);
@@ -97,15 +104,13 @@ public class PlayerBody : MonoBehaviour
         {
             var finish = collision.gameObject.GetComponent<FinishZone>();
             finishMultiplier = finish.multiplier;
-            Debug.Log("Player Finish = " + finish.multiplier);
             if (finishMultiplier == 20)
             {
                 _animator.SetTrigger(walkTrigger);
                 PlayerTransformAnchor.RaiseEvent(transform);
                 VictoryEvent.RaiseEvent(finishMultiplier);
-                //Clear Stack
+                
             }
         }
     }
-
 }

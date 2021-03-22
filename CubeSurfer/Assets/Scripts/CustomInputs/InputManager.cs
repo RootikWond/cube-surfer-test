@@ -11,12 +11,6 @@ public class InputManager : MonoBehaviour
     public event Action<Vector2, double> Dragged;
     public event Action<Vector2, double> Released;
 
-    public InputAction Delta
-    {
-        get { return m_Controls.Touch.Delta; }
-        private set { }
-    }
-
     public PlayerControls Controls => m_Controls;
     private PlayerControls m_Controls;
 
@@ -46,11 +40,11 @@ public class InputManager : MonoBehaviour
   
     private void OnEnable()
     {
-        m_Controls?.Enable();
+       // m_Controls?.Enable();
     }
     private void OnDisable()
     {
-        m_Controls?.Disable();
+       // m_Controls?.Disable();
     }
 
 

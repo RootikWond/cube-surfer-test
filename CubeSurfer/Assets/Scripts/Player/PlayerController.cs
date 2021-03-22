@@ -1,70 +1,61 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.EnhancedTouch;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
-using TouchPhase = UnityEngine.InputSystem.TouchPhase;
+//using UnityEngine.InputSystem.EnhancedTouch;
+//using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
+//using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 using Cinemachine;
+using UnityEngine.EventSystems;
+//using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
-    private InputManager _inputManager;
     private Camera _mainCamera;
 
     [SerializeField] private PlayerBody playerBody;
     [SerializeField] private CinemachineDollyCart playerCart;
 
-    private bool touchMove;
-    private bool touchSwipe;
-    private bool touchBegan;
-
+    private bool inputsEnabled;
 
     [SerializeField] private float speed = 2f;
-    private Vector2 startTouchPosition;
     private double maxSwipeDuration = 0.15f;
     private float minSwipeDistance = 50f;
     private float gestureTime = 0f;
 
     [Header("Events")]
     public ItemEventSO CoinCollect = default;
+    public VoidEventSO StartLevel = default;
 
     [Header("Listeners")]
     public BoolEventSO StackBoxChange = default;
     public ItemEventSO BoxCollect = default;
     public VoidEventSO DeathEvent = default;
-    public VoidEventSO StartLevel = default;
+    
     public IntEventSO LevelFinish = default;
 
     [Header("Stack")]
     public BoxStackSO Stack = default;
 
 
-    private bool levelRunning = false;
+    private bool levelStarted = false;
 
     private void Awake()
     {
-        _inputManager = GetComponent<InputManager>();
         _mainCamera = Camera.main;
-        EnhancedTouchSupport.Enable();
     }
     private void OnEnable()
     {
-        _inputManager.Pressed += OnTouchStarted;
-        _inputManager.Dragged += OnTouchMove;
-        _inputManager.Released += OnTouchEnded;
         StackBoxChange.OnEventRaised += UpdateBoxStack;
         DeathEvent.OnEventRaised += OnPlayerDeath;
-        LevelFinish.OnEventRaised += OnPlayerWin; 
-}
+        LevelFinish.OnEventRaised += OnPlayerWin;
+    }
     private void OnDisable()
     {
-        _inputManager.Pressed -= OnTouchStarted;
-        _inputManager.Dragged -= OnTouchMove;
-        _inputManager.Released -= OnTouchEnded;
+
         StackBoxChange.OnEventRaised -= UpdateBoxStack;
         DeathEvent.OnEventRaised -= OnPlayerDeath;
         LevelFinish.OnEventRaised -= OnPlayerWin;
+
     }
 
     //Test to add remove boxes into stack
@@ -76,7 +67,7 @@ public class PlayerController : MonoBehaviour
             Stack.Add(box);
             speed += 1;
 
-        } 
+        }
         else
         {
             if (Stack.Items.Count > 0)
@@ -86,70 +77,24 @@ public class PlayerController : MonoBehaviour
             speed -= 1;
         }
     }
-    
+
     private void OnPlayerWin(int value)
     {
-        _inputManager.Controls.Disable();
-        
+        inputsEnabled = true;
+        playerCart.m_Speed = 0;
+
     }
     private void OnPlayerDeath()
     {
-        _inputManager.Controls.Disable();
+
+        inputsEnabled = false;
         playerCart.m_Speed = 0;
-    }
-     
-    private void OnTouchMove(Vector2 deltaPosition, double time)
-    {
-       
-        if (touchMove)
-        {
-            var newPos = transform.localPosition + new Vector3(deltaPosition.x, 0, 0) * Time.deltaTime * speed;
-            transform.localPosition = new Vector3(Mathf.Clamp(newPos.x, -2, 2), transform.localPosition.y, transform.localPosition.z);
-            /*
-            var xOffset = transform.localPosition;
-            xOffset.x = Mathf.Clamp(transform.localPosition.x + deltaPosition.normalized.x * Time.deltaTime*speed, -2, 2);
-            transform.localPosition = new Vector3(xOffset.x, transform.localPosition.y, transform.localPosition.z);
-            */
-        }
-    
-        
-    }
-    private void OnTouchStarted(Vector2 position, double time)
-    {
-        if (!levelRunning)
-        {
-            levelRunning = true;
-            playerCart.m_Speed = 8;
-            StartLevel.RaiseEvent();
-        }
-        touchBegan = true;
-        touchMove = false;
-        //touchSwipe = false;
-        startTouchPosition = position;
-    }
-    
-    private void OnTouchEnded(Vector2 position, double time)
-    {
-        
-        touchMove = false;
-        Vector3 direction = Vector3.zero;
-        if (IsValidSwipe(startTouchPosition, position, time, out direction))
-        {
-            //touchSwipe = true;
-
-           StartCoroutine(Swipe(direction));
-                    
-        }
-        touchBegan = false;
-        gestureTime = 0;
-
-
     }
 
     private bool IsValidSwipe(Vector2 start, Vector2 end, double duration, out Vector3 swipeDirection)
     {
         swipeDirection = Vector3.zero;
-        if(Vector2.Distance(start, end) >= minSwipeDistance && duration <= maxSwipeDuration)
+        if (Vector2.Distance(start, end) >= minSwipeDistance && duration <= maxSwipeDuration)
         {
             Vector2 dir = (end - start).normalized;
             if (dir.x > 0)
@@ -164,46 +109,96 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-    
+
+    Vector3 start;
+    float lastX;
     private void Update()
     {
-        if (touchBegan)
-        {
-
-            
-            gestureTime += Time.deltaTime;
-            if (gestureTime > maxSwipeDuration && !touchSwipe)
-            {
-                touchMove = true;
-            }
-          
-          
-        }
         /*
-        if (Touch.activeFingers.Count == 1)
+        if (Input.GetMouseButtonDown(0))
         {
-            Touch activeTouch = Touch.activeFingers[0].currentTouch;
-            if (activeTouch.phase == TouchPhase.Moved)
-            {
-                Debug.Log("Delta = "+ activeTouch.delta);
-                var scp = _mainCamera.ScreenToViewportPoint(activeTouch.screenPosition);
-               
-                var loc = transform.InverseTransformPoint(scp);
-               
-                //transform.localPosition += (direction * Time.deltaTime * speed);
-              
-                transform.localPosition = new Vector3(
-                    transform.localPosition.x + activeTouch.delta.normalized.x * Time.deltaTime * speed, 
-                    transform.localPosition.y, 
-                    transform.localPosition.z);
-                
-            }
+            start = Input.mousePosition;
+            lastX = start.x;
+            InterationBegan();
         }
-        */
 
+        if (Input.GetMouseButton(0))
+        {
+            var current = Input.mousePosition;
+             var delta = current.x - lastX;
+            var target = transform.localPosition;
+             target.x += (delta / Screen.width) * speed;
+            target.x = Mathf.Clamp(target.x, -2, 2);
+            target.y = 0;
+            target.z = 0;
+            transform.localPosition = target;
+
+            lastX = current.x;
+
+        }
        
+        if (Input.GetMouseButtonUp(0))
+        {
+            InterationEnded();
+        }
+   */
+        if (Input.touchCount > 0)
+        {
+            var touch = Input.GetTouch(0);
+            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+            {
+                Debug.Log("UI");
+                return;
+            }
+
+            if (touch.phase.Equals(UnityEngine.TouchPhase.Began))
+            {
+                start = touch.position;
+                lastX = start.x;
+                InterationBegan();
+            }
+            if (inputsEnabled)
+            {
+                var current = Input.mousePosition;
+                var delta = current.x - lastX;
+                var target = transform.localPosition;
+                target.x += (delta / Screen.width) * speed;
+                target.x = Mathf.Clamp(target.x, -2, 2);
+                target.y = 0;
+                target.z = 0;
+                transform.localPosition = target;
+
+                lastX = current.x;
+            }
+
+
+
+
+            /*
+            if (touch.phase.Equals(UnityEngine.TouchPhase.Canceled))
+            {
+                //Select closed line
+
+            }
+            */
+        }
+
     }
 
+
+    private void InterationBegan()
+    {
+        if (!levelStarted)
+        {
+            levelStarted = true;
+            inputsEnabled = true;
+            playerCart.m_Speed = 10;
+            StartLevel.RaiseEvent();
+        }
+
+    }
+
+    /*
     IEnumerator Swipe(Vector3 direction)
     {
         var newPosition = transform.localPosition + direction;
@@ -217,21 +212,23 @@ public class PlayerController : MonoBehaviour
         transform.localPosition = newPosition;
        
     }
-
+    */
 
     private void AddBox(Item item)
     {
-        Vector3 topPosition = new Vector3(0,(float)Stack.Items.Count,0);
       
-        //player jump
+        var lastBoxPosition = Stack.LastBox().transform.localPosition;
+
         playerBody.rigidbody.isKinematic = true;
-        playerBody.transform.localPosition = new Vector3(0, playerBody.transform.localPosition.y + item.amount*2f, 0);
+
         for (int i = 0; i < item.amount; i++)
         {
-            topPosition.y += i+1;
-            var box = StackBoxPool.Instance.SpawnBox(topPosition, transform);
+            lastBoxPosition.y += i+1;
+            var box = StackBoxPool.Instance.SpawnBox(lastBoxPosition, transform);
             Stack.Add(box);
         }
+  
+        playerBody.transform.localPosition = new Vector3(0, lastBoxPosition.y +0.6f, 0);
         playerBody.rigidbody.isKinematic = false;
     }
 

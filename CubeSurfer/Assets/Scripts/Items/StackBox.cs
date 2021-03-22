@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class StackBox : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
+    private Rigidbody rigidbody;
+    private RigidbodyConstraints rigidbodyConstrains;
     [SerializeField] private BoxStackSO stack;
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody>();
+        rigidbodyConstrains = rigidbody.constraints;
     }
     private void OnEnable()
     {
+
+
+        rigidbody.constraints = rigidbodyConstrains;
         //StartBox
         if (transform.parent !=null && transform.parent.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
         {
@@ -20,15 +25,16 @@ public class StackBox : MonoBehaviour
 
         }
     }
-
+ 
     public void Emergence()
     {
         VFXPool.PlayVFX(VFXPool.VFXType.BoxStack, transform.position);
 
-        StartCoroutine(ScaleUp(0.2f));
+        
     }
     public void Remove()
     {
+        VFXPool.PlayVFX(VFXPool.VFXType.BoxStack, transform.position);
         stack.Remove(this);
         if (transform.parent != null)
         {
@@ -37,25 +43,15 @@ public class StackBox : MonoBehaviour
         gameObject.SetActive(false);
         transform.localScale = Vector3.zero;
     }
-    IEnumerator ScaleUp(float scaleDuration)
-    {
 
-        float elapsetTime = 0;
-        while (elapsetTime < scaleDuration)
-        {
-            elapsetTime += Time.deltaTime;
-            transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, elapsetTime/scaleDuration);
-            yield return null;
-        }
-        transform.localScale = Vector3.one;
-
-    }
     IEnumerator RemoveAfter(float time)
     {
         stack.Remove(this);
         if (transform.parent != null)
         {
             transform.parent = null;
+
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
         yield return new WaitForSeconds(time);
         gameObject.SetActive(false);

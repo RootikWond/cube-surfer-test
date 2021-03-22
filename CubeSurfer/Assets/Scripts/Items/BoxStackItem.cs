@@ -11,7 +11,7 @@ public class BoxStackItem : Item
        // container.Add(initialPrefab);
         if (amount > 1)
         {
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < amount-1; i++)
             {
                 spawnPosition.y += transform.localScale.y;
                 var box = Instantiate(initialPrefab, transform);
